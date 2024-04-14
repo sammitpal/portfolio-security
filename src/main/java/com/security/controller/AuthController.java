@@ -74,7 +74,7 @@ public class AuthController implements ErrorController {
 		
 		Map<String, String> map = new HashMap<>();
 
-		if (user.getUsername() == null || user.getEmail() == null && user.getPassword() == null) {
+		if (user.getUsername() == null && user.getPassword() == null) {
 			map.put("error", "PLease enter the credentials");
 		} else {
 			User userFound = userRepo.findByUsername(user.getUsername()).orElse(null);
@@ -94,8 +94,8 @@ public class AuthController implements ErrorController {
 		UserResponse userResponse = new UserResponse();
 		try {			
 			User user = userRepo.findByUsername(principal.getName()).orElse(null);
+			userResponse.setId(user.getId());
 			userResponse.setUsername(user.getUsername());
-			userResponse.setEmail(user.getEmail());
 			userResponse.setActive(user.isActive());
 			userResponse.setRoles(user.getRoles());
 		} catch (Exception e) {
